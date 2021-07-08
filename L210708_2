@@ -1,0 +1,926 @@
+
+import java.awt.GridLayout;
+import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.TreeSet;
+
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+class Result extends JDialog {
+	L210708_2 finish = new L210708_2();
+
+	public Result() {
+		setModal(true);
+
+		JPanel resultpnl = new JPanel();
+		JLabel resultlbl = new JLabel("째 로또 추첨결과");
+		JLabel resultnum = new JLabel("당첨번호");
+
+		JPanel selectpnl = new JPanel();
+		JLabel selectNum = new JLabel();
+
+		ArrayList<Integer> numbers1 = new ArrayList<Integer>();
+		for (int i = 1; i <= 45; i++) {
+			numbers1.add(i);
+		}
+		Collections.shuffle(numbers1);
+		int[] num = new int[6];
+		for (int i = 0; i < 6; i++) {
+			num[i] = numbers1.get(i);
+		}
+//		selectNum.setText(Arrays.toString(num));
+
+		resultpnl.add(resultlbl);
+		resultpnl.add(resultnum);
+
+		selectpnl.add(selectNum);
+		selectNum.setText(Arrays.toString(finish.selectA));
+//		if (selectA[1] != 0) {
+//			selectNum.setText(Arrays.toString(selectA));
+//			System.out.print(Arrays.toString(selectA));
+//		}
+//		int m1 [] = finish.selectA.clone();
+//		System.out.println(Arrays.toString(selectA));
+		add(resultpnl);
+		add(selectpnl, "South");
+
+	}
+
+}
+
+// 오버라이드를 클래스로 빼서 메인해서 다시쓰기
+public class L210708_2 extends JFrame {
+//	TreeSet<Integer> selectA = new TreeSet<Integer>();
+//	int selectA[] = new int[6];
+//	int selectB[] = new int[6];
+//	int selectC[] = new int[6];
+//	int selectD[] = new int[6];
+//	int selectE[] = new int[6];
+	final int MAX_SELECTED = 6;
+	int selectionCounter = 0;
+	int selectA[] = new int[6];
+	int selectB[] = new int[6];
+	int selectC[] = new int[6];
+	int selectD[] = new int[6];
+	int selectE[] = new int[6];
+//	Result re = new Result();
+
+	public L210708_2() {
+		JPanel pnl = new JPanel();
+		pnl.setLayout(new GridLayout(5, 3));
+		JLabel number = new JLabel("Number A");
+		JButton again = new JButton("번호 수정");
+		JButton retry = new JButton("A 번호 생성");
+		JButton delete = new JButton("번호 삭제");
+		number.setVisible(false);
+		again.setVisible(false);
+		retry.setVisible(false);
+		delete.setVisible(false);
+
+		JLabel number2 = new JLabel("Number B");
+		JButton again2 = new JButton("번호 수정");
+		JButton retry2 = new JButton("B 번호 생성");
+		JButton delete2 = new JButton("번호 삭제");
+		number2.setVisible(false);
+		again2.setVisible(false);
+		retry2.setVisible(false);
+		delete2.setVisible(false);
+
+		JLabel number3 = new JLabel("Number C");
+		JButton again3 = new JButton("번호 수정");
+		JButton retry3 = new JButton("C 번호 생성");
+		JButton delete3 = new JButton("번호 삭제");
+		number3.setVisible(false);
+		again3.setVisible(false);
+		retry3.setVisible(false);
+		delete3.setVisible(false);
+
+		JLabel number4 = new JLabel("Number D");
+		JButton again4 = new JButton("번호 수정");
+		JButton retry4 = new JButton("D 번호 생성");
+		JButton delete4 = new JButton("번호 삭제");
+		number4.setVisible(false);
+		again4.setVisible(false);
+		retry4.setVisible(false);
+		delete4.setVisible(false);
+
+		JLabel number5 = new JLabel("Number E");
+		JButton again5 = new JButton("번호 수정");
+		JButton retry5 = new JButton("E 번호 생성");
+		JButton delete5 = new JButton("번호 삭제");
+		number5.setVisible(false);
+		again5.setVisible(false);
+		retry5.setVisible(false);
+		delete5.setVisible(false);
+
+		JPanel pnl2 = new JPanel();
+		// JButton check = new JButton("Number A 선택");
+		// JButton check2 = new JButton("Number B 선택");
+		// JButton check3 = new JButton("Number C 선택");
+		// JButton check4 = new JButton("Number D 선택");
+		// JButton check5 = new JButton("Number E 선택");
+		JButton okay = new JButton("결과확인");
+		// check.setVisible(false);
+		// check2.setVisible(false);
+		// check3.setVisible(false);
+		// check4.setVisible(false);
+		// check5.setVisible(false);
+
+		JPanel pnl3 = new JPanel();
+		JLabel times = new JLabel("횟수를 선택하세요");
+		Integer[] num = { 1, 2, 3, 4, 5 };
+		JComboBox<Integer> combo = new JComboBox<Integer>(num);
+
+		JPanel pnl4 = new JPanel();
+		pnl4.setLayout(new GridLayout(9, 5));
+		JCheckBox[] cnt = new JCheckBox[45];
+		int[] cnts = new int[45];
+		for (int i = 0; i < 45; i++) {
+			cnts[i] = i + 1;
+			cnt[i] = new JCheckBox(String.valueOf(cnts[i]));
+			cnt[i].addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent e) {
+					JCheckBox source = (JCheckBox) e.getSource();
+					int num = Integer.parseInt(source.getText());
+
+					if (source.isSelected()) {
+						selectionCounter++;
+						if (selectionCounter > 6) {
+							JOptionPane.showMessageDialog(pnl, "선택 수량이 초과하였습니다", "ERROR_MESSAGE",
+									JOptionPane.ERROR_MESSAGE);
+
+						}
+					} else {
+						selectionCounter--;
+					}
+
+				}
+			});
+
+		}
+
+		JPanel pnl5 = new JPanel();
+		pnl5.setLayout(new GridLayout(3, 0));
+		JLabel nothing = new JLabel("     ");
+		JLabel nothing1 = new JLabel("     ");
+		JLabel nothing2 = new JLabel("     ");
+
+		ArrayList<Integer> numbers = new ArrayList<Integer>();
+		for (int i = 1; i <= 45; i++) {
+			numbers.add(i);
+		}
+		pnl.add(number);
+		pnl.add(again);
+		// JTextField jtf = new JTextField(50);
+		again.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+//				for (int i = 0; i < cnt.length; i++) {
+//					if ( i < 6) {
+//						cnts[i] = selectA[i];
+//						System.out.println(Arrays.toString(cnts));
+//						System.out.println("i의값");
+				int j = 0;
+				for (int i = 0; i < 6; i++) {
+					j = selectA[i]; // selectA[0] 를 int J로 반환
+					j = j - 1;
+					cnt[j].setSelected(true); // JCheckBox의 j자리 체크
+				}
+//							System.out.println(j);
+//								cnt[j].setSelected(true);
+
+//						selectA[0] = i;
+//						selectA[1] = i;
+//						selectA[2] = i;
+//						cnt[i] = new JCheckBox(String.valueOf(cnts[i]));
+//						cnt[i] = new JCheckBox(String.valueOf(cnts[i]));
+//						selA[i] = new JCheckBox(String.valueOf(cnts[i]));
+//						cnt[i] = selA[i];
+//						selA[i].setSelected(true);
+//					}
+//					else break;
+//				}
+//				for (int i = 0; i < 46; i++) {
+//					if ( s < 6 ) {
+//						for (int j = 0; j < selectA.length; j++) {
+//							cnt[i].setSelected(true);
+//						}
+//					}
+//					else
+//						break;
+//				}
+				// AgainSet as = new AgainSet();
+				// String str = "";
+				// ArrayList<Integer> numbers1 = new ArrayList<Integer>();
+				// int[] picked1 = new int[6];
+				// for (int i = 0; i < 6; i++) {
+				// picked1[i] = numbers1.get(i);
+				// if ()
+				// }
+				// number.setText(Arrays.toString(picked1));
+
+				// 배열로 뺀 다음에 배열에있는값 찾아서 체크하기
+				// for (int i = 0; i < cnt.length; i++) {
+				// int index = picked1[i];
+				// if (i == numbers1.get(i))
+				// cnt[i].setSelected(true);
+				// }
+
+				// check.setVisible(true);
+			}
+		});
+		pnl.add(retry); // 유저A 번호선택
+		retry.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ArrayList<Integer> numbers1 = new ArrayList<Integer>();
+				for (int i = 1; i <= 45; i++) {
+					numbers1.add(i);
+				}
+//				Collections.shuffle(numbers1);
+//				int[] picked1 = new int[6];
+//				for (int i = 0; i < 6; i++) {
+//					selectA[i] = numbers1.get(i);
+//					selectA[i] = picked1[i];
+//					 selectA = numbers1.get(i);
+//				}
+//				System.out.print(Arrays.toString(selectA));
+//				number.setText(Arrays.toString(selectA));
+				// check.setVisible(false);
+
+				// for (int i = 0; i < cnts.length; i++) {
+				//
+				// cnt[i].setSelected(false);
+				// }
+
+				TreeSet<Integer> chkNum1 = new TreeSet<Integer>();
+				int selSize = 0;
+				for (int i = 0; i < 45; i++) {
+					if (cnt[i].isSelected()) {
+						chkNum1.add(Integer.parseInt(cnt[i].getText()));
+						selSize++;
+					}
+//					System.out.println(cnt);
+				}
+				Collections.shuffle(numbers);
+//				for (int i = 0; i < 10; i++) {
+//					if (selectA.size() < 6)
+//						selectA.add(numbers.get(i);
+//						selectA[i] = numbers.get(i);
+//				}
+				for (int i = 0; i < 6; i++) {
+					selectA[i] = numbers.get(i);
+//					selectA[i] = picked1[i];
+//					selectA = numbers1.get(i);
+				}
+				Arrays.sort(selectA);
+				System.out.print(Arrays.toString(selectA));
+				number.setText(Arrays.toString(selectA));
+//				for (int i = 0; i < 10; i++) {
+//					if (chkNum1.size() < 6)
+//						chkNum1.add(numbers.get(i));
+//				}
+////				number.setText(chkNum1.toString());
+
+				for (int i = 0; i < cnts.length; i++) {
+
+					cnt[i].setSelected(false);
+
+				}
+
+			}
+		});
+		pnl.add(delete);
+		delete.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				number.setText("Number A");
+				// check.setVisible(true);
+
+				for (int i = 0; i < cnts.length; i++) {
+
+					cnt[i].setSelected(false);
+				}
+			}
+		});
+
+		pnl.add(number2);
+		pnl.add(again2);
+		again2.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				for (int i = 0; i < cnts.length; i++) {
+
+					cnt[i].setSelected(false);
+				}
+				// check2.setVisible(true);
+			}
+		});
+		pnl.add(retry2);
+		retry2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ArrayList<Integer> numbers1 = new ArrayList<Integer>();
+				for (int i = 1; i <= 45; i++) {
+					numbers1.add(i);
+				}
+
+				Collections.shuffle(numbers1);
+				int[] picked1 = new int[6];
+				for (int i = 0; i < 6; i++) {
+					picked1[i] = numbers1.get(i);
+				}
+				number2.setText(Arrays.toString(picked1));
+//				check2.setVisible(false);
+
+//				for (int i = 0; i < cnts.length; i++) {
+//
+//					cnt[i].setSelected(false);
+//				}
+
+				TreeSet<Integer> chkNum1 = new TreeSet<Integer>();
+				int selSize = 0;
+				for (int i = 0; i < 45; i++) {
+					if (cnt[i].isSelected()) {
+						chkNum1.add(Integer.parseInt(cnt[i].getText()));
+						selSize++;
+					}
+				}
+				Collections.shuffle(numbers);
+				for (int i = 0; i < 10; i++) {
+					if (chkNum1.size() < 6)
+						chkNum1.add(numbers.get(i));
+				}
+				number2.setText(chkNum1.toString());
+
+				for (int i = 0; i < cnts.length; i++) {
+
+					cnt[i].setSelected(false);
+				}
+
+			}
+		});
+
+		pnl.add(delete2);
+		delete2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				number2.setText("Number B");
+				// check2.setVisible(true);
+
+				for (int i = 0; i < cnts.length; i++) {
+
+					cnt[i].setSelected(false);
+				}
+			}
+		});
+
+		pnl.add(number3);
+		pnl.add(again3);
+		again3.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (int i = 0; i < cnts.length; i++) {
+
+					cnt[i].setSelected(false);
+				}
+				// check3.setVisible(true);
+			}
+		});
+		pnl.add(retry3);
+		retry3.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ArrayList<Integer> numbers1 = new ArrayList<Integer>();
+				for (int i = 1; i <= 45; i++) {
+					numbers1.add(i);
+				}
+				Collections.shuffle(numbers1);
+				int[] picked1 = new int[6];
+				for (int i = 0; i < 6; i++) {
+					picked1[i] = numbers1.get(i);
+				}
+				number3.setText(Arrays.toString(picked1));
+				// check3.setVisible(false);
+
+				// for (int i = 0; i < cnts.length; i++) {
+				//
+				// cnt[i].setSelected(false);
+				// }
+
+				TreeSet<Integer> chkNum1 = new TreeSet<Integer>();
+				int selSize = 0;
+				for (int i = 0; i < 45; i++) {
+					if (cnt[i].isSelected()) {
+						chkNum1.add(Integer.parseInt(cnt[i].getText()));
+						selSize++;
+					}
+				}
+				Collections.shuffle(numbers);
+				for (int i = 0; i < 10; i++) {
+					if (chkNum1.size() < 6)
+						chkNum1.add(numbers.get(i));
+				}
+				number3.setText(chkNum1.toString());
+
+				for (int i = 0; i < cnts.length; i++) {
+
+					cnt[i].setSelected(false);
+				}
+
+			}
+		});
+		pnl.add(delete3);
+		delete3.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				number3.setText("Number C");
+				// check3.setVisible(true);
+
+				for (int i = 0; i < cnts.length; i++) {
+
+					cnt[i].setSelected(false);
+				}
+			}
+		});
+
+		pnl.add(number4);
+		pnl.add(again4);
+		again4.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (int i = 0; i < cnts.length; i++) {
+
+					cnt[i].setSelected(false);
+				}
+				// check4.setVisible(true);
+			}
+		});
+		pnl.add(retry4);
+		retry4.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ArrayList<Integer> numbers1 = new ArrayList<Integer>();
+				for (int i = 1; i <= 45; i++) {
+					numbers1.add(i);
+				}
+				Collections.shuffle(numbers1);
+				int[] picked1 = new int[6];
+				for (int i = 0; i < 6; i++) {
+					picked1[i] = numbers1.get(i);
+				}
+				number4.setText(Arrays.toString(picked1));
+				// check4.setVisible(false);
+
+				// for (int i = 0; i < cnts.length; i++) {
+				//
+				// cnt[i].setSelected(false);
+				// }
+
+				TreeSet<Integer> chkNum1 = new TreeSet<Integer>();
+				int selSize = 0;
+				for (int i = 0; i < 45; i++) {
+					if (cnt[i].isSelected()) {
+						chkNum1.add(Integer.parseInt(cnt[i].getText()));
+						selSize++;
+					}
+				}
+				Collections.shuffle(numbers);
+				for (int i = 0; i < 10; i++) {
+					if (chkNum1.size() < 6)
+						chkNum1.add(numbers.get(i));
+				}
+				number4.setText(chkNum1.toString());
+
+				for (int i = 0; i < cnts.length; i++) {
+
+					cnt[i].setSelected(false);
+				}
+
+			}
+		});
+		pnl.add(delete4);
+		delete4.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				number4.setText("Number D");
+				// check4.setVisible(true);
+
+				for (int i = 0; i < cnts.length; i++) {
+
+					cnt[i].setSelected(false);
+				}
+			}
+		});
+
+		pnl.add(number5);
+		pnl.add(again5);
+		again5.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (int i = 0; i < cnts.length; i++) {
+
+					cnt[i].setSelected(false);
+				}
+				// check5.setVisible(true);
+			}
+		});
+		pnl.add(retry5);
+		retry5.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ArrayList<Integer> numbers1 = new ArrayList<Integer>();
+				for (int i = 1; i <= 45; i++) {
+					numbers1.add(i);
+				}
+				Collections.shuffle(numbers1);
+				int[] picked1 = new int[6];
+				for (int i = 0; i < 6; i++) {
+					picked1[i] = numbers1.get(i);
+				}
+				number5.setText(Arrays.toString(picked1));
+				// check5.setVisible(false);
+
+				// for (int i = 0; i < cnts.length; i++) {
+				//
+				// cnt[i].setSelected(false);
+				// }
+
+				TreeSet<Integer> chkNum1 = new TreeSet<Integer>();
+				int selSize = 0;
+				for (int i = 0; i < 45; i++) {
+					if (cnt[i].isSelected()) {
+						chkNum1.add(Integer.parseInt(cnt[i].getText()));
+						selSize++;
+					}
+				}
+				Collections.shuffle(numbers);
+				for (int i = 0; i < 10; i++) {
+					if (chkNum1.size() < 6)
+						chkNum1.add(numbers.get(i));
+				}
+				number5.setText(chkNum1.toString());
+
+				for (int i = 0; i < cnts.length; i++) {
+
+					cnt[i].setSelected(false);
+				}
+
+			}
+		});
+		pnl.add(delete5);
+		delete5.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				number5.setText("Number E");
+				// check5.setVisible(true);
+
+				for (int i = 0; i < cnts.length; i++) {
+
+					cnt[i].setSelected(false);
+				}
+			}
+		});
+
+		// ArrayList<Integer> numbers = new ArrayList<Integer>();
+		// for (int i = 1; i <= 45; i++) {
+		// numbers.add(i);
+		// }
+		// pnl2.add(check);
+		// check.addActionListener(new ActionListener() {
+		// @Override
+		// public void actionPerformed(ActionEvent e) {
+		// TreeSet <Integer> chkNum1 = new TreeSet<Integer>();
+		// int selSize = 0;
+		// for (int i = 0; i < 45; i++) {
+		// if(cnt[i].isSelected()) {
+		// chkNum1.add(Integer.parseInt(cnt[i].getText()));
+		// selSize++;
+		// }
+		// }
+		// Collections.shuffle(numbers);
+		// for (int i = 0; i < 10; i++) {
+		// if(chkNum1.size() <6)
+		// chkNum1.add(numbers.get(i));
+		// }
+		// number.setText(chkNum1.toString());
+		//
+		// for (int i = 0; i < cnts.length; i++) {
+		//
+		// cnt[i].setSelected(false);
+		// }
+		//
+		// check.setVisible(false);
+		// }
+		// });
+		// pnl2.add(check2);
+		// check2.addActionListener(new ActionListener() {
+		// @Override
+		// public void actionPerformed(ActionEvent e) {
+		// TreeSet <Integer> chkNum1 = new TreeSet<Integer>();
+		// int selSize = 0;
+		// for (int i = 0; i < 45; i++) {
+		// if(cnt[i].isSelected()) {
+		// chkNum1.add(Integer.parseInt(cnt[i].getText()));
+		// selSize++;
+		// }
+		// }
+		// Collections.shuffle(numbers);
+		// for (int i = 0; i < 10; i++) {
+		// if(chkNum1.size() <6)
+		// chkNum1.add(numbers.get(i));
+		// }
+		// number2.setText(chkNum1.toString());
+		//
+		// for (int i = 0; i < cnts.length; i++) {
+		//
+		// cnt[i].setSelected(false);
+		// }
+		//
+		// check2.setVisible(false);
+		// }
+		// });
+		// pnl2.add(check3);
+		// check3.addActionListener(new ActionListener() {
+		// @Override
+		// public void actionPerformed(ActionEvent e) {
+		// TreeSet <Integer> chkNum1 = new TreeSet<Integer>();
+		// int selSize = 0;
+		// for (int i = 0; i < 45; i++) {
+		// if(cnt[i].isSelected()) {
+		// chkNum1.add(Integer.parseInt(cnt[i].getText()));
+		// selSize++;
+		// }
+		// }
+		// Collections.shuffle(numbers);
+		// for (int i = 0; i < 10; i++) {
+		// if(chkNum1.size() <6)
+		// chkNum1.add(numbers.get(i));
+		// }
+		// number3.setText(chkNum1.toString());
+		//
+		// for (int i = 0; i < cnts.length; i++) {
+		//
+		// cnt[i].setSelected(false);
+		// }
+		//
+		// check3.setVisible(false);
+		// }
+		// });
+		// pnl2.add(check4);
+		// check4.addActionListener(new ActionListener() {
+		// @Override
+		// public void actionPerformed(ActionEvent e) {
+		// TreeSet <Integer> chkNum1 = new TreeSet<Integer>();
+		// int selSize = 0;
+		// for (int i = 0; i < 45; i++) {
+		// if(cnt[i].isSelected()) {
+		// chkNum1.add(Integer.parseInt(cnt[i].getText()));
+		// selSize++;
+		// }
+		// }
+		// Collections.shuffle(numbers);
+		// for (int i = 0; i < 10; i++) {
+		// if(chkNum1.size() <6)
+		// chkNum1.add(numbers.get(i));
+		// }
+		// number4.setText(chkNum1.toString());
+		//
+		// for (int i = 0; i < cnts.length; i++) {
+		//
+		// cnt[i].setSelected(false);
+		// }
+		//
+		// check4.setVisible(false);
+		// }
+		// });
+		// pnl2.add(check5);
+		// check5.addActionListener(new ActionListener() {
+		// @Override
+		// public void actionPerformed(ActionEvent e) {
+		// TreeSet <Integer> chkNum1 = new TreeSet<Integer>();
+		// int selSize = 0;
+		// for (int i = 0; i < 45; i++) {
+		// if(cnt[i].isSelected()) {
+		// chkNum1.add(Integer.parseInt(cnt[i].getText()));
+		// selSize++;
+		// }
+		// }
+		// Collections.shuffle(numbers);
+		// for (int i = 0; i < 10; i++) {
+		// if(chkNum1.size() <6)
+		// chkNum1.add(numbers.get(i));
+		// }
+		// number5.setText(chkNum1.toString());
+		//
+		// for (int i = 0; i < cnts.length; i++) {
+		//
+		// cnt[i].setSelected(false);
+		// }
+		//
+		// check5.setVisible(false);
+		// }
+		// });
+		pnl2.add(okay);
+		okay.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JDialog ResultLotto = new Result();
+				ResultLotto.setVisible(true);
+				// 결과확인하면 main 한번더 실행되는 오류있음
+//				selectA[i] = numbers.get(i);
+//				selectA[i] = picked1[i];
+//				selectA = numbers1.get(i);
+//				setVisible(true);
+//			System.out.print(Arrays.toString(re.selectA));
+//			number.setText(Arrays.toString(selectA));
+			}
+		});
+
+		pnl3.add(times);
+		pnl3.add(combo);
+		combo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Object source = e.getSource();
+				JComboBox<Integer> c = (JComboBox<Integer>) source;
+				int index = c.getSelectedIndex();
+
+				if (index == 0) {
+					number.setVisible(true);
+					number2.setVisible(false);
+					number3.setVisible(false);
+					number4.setVisible(false);
+					number5.setVisible(false);
+					again.setVisible(true);
+					again2.setVisible(false);
+					again3.setVisible(false);
+					again4.setVisible(false);
+					again5.setVisible(false);
+					retry.setVisible(true);
+					retry2.setVisible(false);
+					retry3.setVisible(false);
+					retry4.setVisible(false);
+					retry5.setVisible(false);
+					delete.setVisible(true);
+					delete2.setVisible(false);
+					delete3.setVisible(false);
+					delete4.setVisible(false);
+					delete5.setVisible(false);
+					// check.setVisible(true);
+					// check2.setVisible(false);
+					// check3.setVisible(false);
+					// check4.setVisible(false);
+					// check5.setVisible(false);
+				} else if (index == 1) {
+					number.setVisible(true);
+					number2.setVisible(true);
+					number3.setVisible(false);
+					number4.setVisible(false);
+					number5.setVisible(false);
+					again.setVisible(true);
+					again2.setVisible(true);
+					again3.setVisible(false);
+					again4.setVisible(false);
+					again5.setVisible(false);
+					retry.setVisible(true);
+					retry2.setVisible(true);
+					retry3.setVisible(false);
+					retry4.setVisible(false);
+					retry5.setVisible(false);
+					delete.setVisible(true);
+					delete2.setVisible(true);
+					delete3.setVisible(false);
+					delete4.setVisible(false);
+					delete5.setVisible(false);
+					// check.setVisible(true);
+					// check2.setVisible(true);
+					// check3.setVisible(false);
+					// check4.setVisible(false);
+					// check5.setVisible(false);
+				} else if (index == 2) {
+					number.setVisible(true);
+					number2.setVisible(true);
+					number3.setVisible(true);
+					number4.setVisible(false);
+					number5.setVisible(false);
+					again.setVisible(true);
+					again2.setVisible(true);
+					again3.setVisible(true);
+					again4.setVisible(false);
+					again5.setVisible(false);
+					retry.setVisible(true);
+					retry2.setVisible(true);
+					retry3.setVisible(true);
+					retry4.setVisible(false);
+					retry5.setVisible(false);
+					delete.setVisible(true);
+					delete2.setVisible(true);
+					delete3.setVisible(true);
+					delete4.setVisible(false);
+					delete5.setVisible(false);
+					// check.setVisible(true);
+					// check2.setVisible(true);
+					// check3.setVisible(true);
+					// check4.setVisible(false);
+					// check5.setVisible(false);
+				} else if (index == 3) {
+					number.setVisible(true);
+					number2.setVisible(true);
+					number3.setVisible(true);
+					number4.setVisible(true);
+					number5.setVisible(false);
+					again.setVisible(true);
+					again2.setVisible(true);
+					again3.setVisible(true);
+					again4.setVisible(true);
+					again5.setVisible(false);
+					retry.setVisible(true);
+					retry2.setVisible(true);
+					retry3.setVisible(true);
+					retry4.setVisible(true);
+					retry5.setVisible(false);
+					delete.setVisible(true);
+					delete2.setVisible(true);
+					delete3.setVisible(true);
+					delete4.setVisible(true);
+					delete5.setVisible(false);
+					// check.setVisible(true);
+					// check2.setVisible(true);
+					// check3.setVisible(true);
+					// check4.setVisible(true);
+					// check5.setVisible(false);
+				} else if (index == 4) {
+					number.setVisible(true);
+					number2.setVisible(true);
+					number3.setVisible(true);
+					number4.setVisible(true);
+					number5.setVisible(true);
+					again.setVisible(true);
+					again2.setVisible(true);
+					again3.setVisible(true);
+					again4.setVisible(true);
+					again5.setVisible(true);
+					retry.setVisible(true);
+					retry2.setVisible(true);
+					retry3.setVisible(true);
+					retry4.setVisible(true);
+					retry5.setVisible(true);
+					delete.setVisible(true);
+					delete2.setVisible(true);
+					delete3.setVisible(true);
+					delete4.setVisible(true);
+					delete5.setVisible(true);
+					// check.setVisible(true);
+					// check2.setVisible(true);
+					// check3.setVisible(true);
+					// check4.setVisible(true);
+					// check5.setVisible(true);
+				}
+			}
+		});
+
+		for (int i = 0; i < cnt.length; i++) {
+			pnl4.add(cnt[i]);
+		}
+
+		pnl5.add(nothing);
+		pnl5.add(nothing1);
+		pnl5.add(nothing2);
+
+		add(pnl, "East");
+		add(pnl2, "South");
+		add(pnl3, "North");
+		add(pnl4, "West");
+		add(pnl5, "Center");
+
+		showGUI();
+	}
+
+	private void showGUI() {
+		setSize(800, 550);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setVisible(true);
+	}
+
+	public static void main(String[] args) {
+		new L210708_2();
+	}
+
+}
